@@ -1,9 +1,5 @@
-import pygame,thread,sys
-from _thread import * 
-import socket
-import time
-
-
+import pygame,sys,socket,time
+from thread import * 
 #from termcolor import colored
 
 class Run():
@@ -34,9 +30,9 @@ class Run():
             except Exception:
                 print ("[ERROR] initializing joystick!!") ; sys.exit(0)
 
-            self.x =self.joystick.get_button(0)
-            self.y = self.joystick.get_axis(2)
-            self.p = self.joystick.get_axis(1)
+            self.b =self.joystick.get_button(0)
+            self.x = self.joystick.get_axis(2)
+            self.y = self.joystick.get_axis(1)
             
 
     def spin(self):
@@ -45,17 +41,14 @@ class Run():
             print ('Got Connection from', addr)
             while True:
                 try:
-                    conn.send(b'%d  %f  %g'%(self.x,self.y,self.p))
+                    conn.send(b'%f%f%d'%(self.x,self.y,self.p))
                     time.sleep(0.5)
                 except :
-                    
                     break
             conn.close()
             
 			
 
 if __name__ == '__main__':
-        
-
         run = Run()
         run.spin()
